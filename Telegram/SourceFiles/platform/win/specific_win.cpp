@@ -439,13 +439,13 @@ void RegisterCustomScheme() {
 
 	if (!_psOpenRegKey(L"Software\\TelegramDesktop", &rkey)) return;
 	if (!_psOpenRegKey(L"Software\\TelegramDesktop\\Capabilities", &rkey)) return;
-	if (!_psSetKeyValue(rkey, L"ApplicationName", qsl("Telegram Desktop"))) return;
-	if (!_psSetKeyValue(rkey, L"ApplicationDescription", qsl("Telegram Desktop"))) return;
+	if (!_psSetKeyValue(rkey, L"ApplicationName", qsl("NebulaChat Desktop"))) return;
+	if (!_psSetKeyValue(rkey, L"ApplicationDescription", qsl("NebulaChat Desktop"))) return;
 	if (!_psOpenRegKey(L"Software\\TelegramDesktop\\Capabilities\\UrlAssociations", &rkey)) return;
 	if (!_psSetKeyValue(rkey, L"tg", qsl("tdesktop.tg"))) return;
 
 	if (!_psOpenRegKey(L"Software\\RegisteredApplications", &rkey)) return;
-	if (!_psSetKeyValue(rkey, L"Telegram Desktop", qsl("SOFTWARE\\TelegramDesktop\\Capabilities"))) return;
+	if (!_psSetKeyValue(rkey, L"NebulaChat Desktop", qsl("SOFTWARE\\TelegramDesktop\\Capabilities"))) return;
 #endif // !TDESKTOP_DISABLE_REGISTER_CUSTOM_SCHEME
 }
 
@@ -564,11 +564,11 @@ void _manageAppLnk(bool create, bool silent, int path_csidl, const wchar_t *args
 }
 
 void psAutoStart(bool start, bool silent) {
-	_manageAppLnk(start, silent, CSIDL_STARTUP, L"-autostart", L"Telegram autorun link.\nYou can disable autorun in Telegram settings.");
+	_manageAppLnk(start, silent, CSIDL_STARTUP, L"-autostart", L"NebulaChat autorun link.\nYou can disable autorun in Telegram settings.");
 }
 
 void psSendToMenu(bool send, bool silent) {
-	_manageAppLnk(send, silent, CSIDL_SENDTO, L"-sendpath", L"Telegram send to link.\nYou can disable send to menu item in Telegram settings.");
+	_manageAppLnk(send, silent, CSIDL_SENDTO, L"-sendpath", L"NebulaChat send to link.\nYou can disable send to menu item in Telegram settings.");
 }
 
 void psWriteDump() {

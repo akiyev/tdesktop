@@ -321,7 +321,7 @@ void MainWindow::Private::initCustomTitle() {
 
 	// Disabled for now.
 	//_useNativeTitle = true;
-	//setWindowTitle(qsl("Telegram"));
+	//setWindowTitle(qsl("NebulaChat"));
 #endif // !OS_MAC_OLD
 }
 
@@ -668,8 +668,8 @@ void MainWindow::initShadows() {
 }
 
 void MainWindow::createGlobalMenu() {
-	auto main = psMainMenu.addMenu(qsl("Telegram"));
-	auto about = main->addAction(tr::lng_mac_menu_about_telegram(tr::now, lt_telegram, qsl("Telegram")));
+	auto main = psMainMenu.addMenu(qsl("NebulaChat"));
+	auto about = main->addAction(tr::lng_mac_menu_about_telegram(tr::now, lt_telegram, qsl("NebulaChat")));
 	connect(about, &QAction::triggered, about, [] {
 		if (App::wnd() && App::wnd()->isHidden()) App::wnd()->showFromTray();
 		Ui::show(Box<AboutBox>());

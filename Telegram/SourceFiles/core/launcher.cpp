@@ -137,7 +137,7 @@ void ComputeInstallationTag() {
 
 bool MoveLegacyAlphaFolder(const QString &folder, const QString &file) {
 	const auto was = cExeDir() + folder;
-	const auto now = cExeDir() + qsl("TelegramForcePortable");
+	const auto now = cExeDir() + qsl("NebulaChatForcePortable");
 	if (QDir(was).exists() && !QDir(now).exists()) {
 		const auto oldFile = was + "/tdata/" + file;
 		const auto newFile = was + "/tdata/alpha";
@@ -160,8 +160,8 @@ bool MoveLegacyAlphaFolder(const QString &folder, const QString &file) {
 }
 
 bool MoveLegacyAlphaFolder() {
-	if (!MoveLegacyAlphaFolder(qsl("TelegramAlpha_data"), qsl("alpha"))
-		|| !MoveLegacyAlphaFolder(qsl("TelegramBeta_data"), qsl("beta"))) {
+	if (!MoveLegacyAlphaFolder(qsl("NebulaChatAlpha_data"), qsl("alpha"))
+		|| !MoveLegacyAlphaFolder(qsl("NebulaChatBeta_data"), qsl("beta"))) {
 		return false;
 	}
 	return true;
@@ -172,7 +172,7 @@ bool CheckPortableVersionFolder() {
 		return false;
 	}
 
-	const auto portable = cExeDir() + qsl("TelegramForcePortable");
+	const auto portable = cExeDir() + qsl("NebulaChatForcePortable");
 	QFile key(portable + qsl("/tdata/alpha"));
 	if (cAlphaVersion()) {
 		Assert(*AlphaPrivateKey != 0);
@@ -246,7 +246,7 @@ void Launcher::init() {
 
 	prepareSettings();
 
-	QApplication::setApplicationName(qsl("TelegramDesktop"));
+	QApplication::setApplicationName(qsl("NebulaChatDesktop"));
 
 #if defined(Q_OS_LINUX) && QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
 	QApplication::setDesktopFileName(Platform::GetLauncherFilename());
@@ -277,7 +277,7 @@ int Launcher::exec() {
 
 	auto result = executeApplication();
 
-	DEBUG_LOG(("Telegram finished, result: %1").arg(result));
+	DEBUG_LOG(("NebulaChat finished, result: %1").arg(result));
 
 	if (!UpdaterDisabled() && cRestartingUpdate()) {
 		DEBUG_LOG(("Sandbox Info: executing updater to install update."));
@@ -285,7 +285,7 @@ int Launcher::exec() {
 			psDeleteDir(cWorkingDir() + qsl("tupdates/temp"));
 		}
 	} else if (cRestarting()) {
-		DEBUG_LOG(("Sandbox Info: executing Telegram because of restart."));
+		DEBUG_LOG(("Sandbox Info: executing NebulaChat because of restart."));
 		launchUpdater(UpdaterLaunch::JustRelaunch);
 	}
 

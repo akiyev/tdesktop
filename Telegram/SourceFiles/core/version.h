@@ -19,9 +19,9 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 // used in Updater.cpp and Setup.iss for Windows
 constexpr auto AppId = "{53F49750-6209-4FBF-9CA8-7A333C87D1ED}"_cs;
-constexpr auto AppNameOld = "Telegram Win (Unofficial)"_cs;
-constexpr auto AppName = "Telegram Desktop"_cs;
-constexpr auto AppFile = "Telegram"_cs;
+constexpr auto AppNameOld = "NebulaChat Win (Unofficial)"_cs;
+constexpr auto AppName = "NebulaChat Desktop"_cs;
+constexpr auto AppFile = "NebulaChat"_cs;
 constexpr auto AppVersion = 1009014;
 constexpr auto AppVersionStr = "1.9.14";
 constexpr auto AppBetaVersion = false;

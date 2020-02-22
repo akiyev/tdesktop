@@ -72,6 +72,40 @@ struct BuiltInDc {
 	int port;
 };
 
+#ifdef PATCH_BY_NEBULACHAT
+// #define NEBULACHAT_DC_IP4   "47.103.102.219"
+// #define NEBULACHAT_DC_PORT  12443
+#define NEBULACHAT_DC_IP4  "127.0.0.1"
+#define NEBULACHAT_DC_PORT  12345
+
+static const BuiltInDc _builtInDcs[] = {
+    { 1, NEBULACHAT_DC_IP4, NEBULACHAT_DC_PORT },
+    { 2, NEBULACHAT_DC_IP4, NEBULACHAT_DC_PORT },
+    { 3, NEBULACHAT_DC_IP4, NEBULACHAT_DC_PORT },
+    { 4, NEBULACHAT_DC_IP4, NEBULACHAT_DC_PORT },
+    { 5, NEBULACHAT_DC_IP4, NEBULACHAT_DC_PORT }
+};
+
+static const BuiltInDc _builtInDcsIPv6[] = {
+    // { 1, "2001:0b28:f23d:f001:0000:0000:0000:000a", 443 },
+    // { 2, "2001:067c:04e8:f002:0000:0000:0000:000a", 443 },
+    // { 3, "2001:0b28:f23d:f003:0000:0000:0000:000a", 443 },
+    // { 4, "2001:067c:04e8:f004:0000:0000:0000:000a", 443 },
+    // { 5, "2001:0b28:f23f:f005:0000:0000:0000:000a", 443 }
+};
+
+static const BuiltInDc _builtInTestDcs[] = {
+    { 1, NEBULACHAT_DC_IP4, NEBULACHAT_DC_PORT },
+    { 2, NEBULACHAT_DC_IP4, NEBULACHAT_DC_PORT },
+    { 3, NEBULACHAT_DC_IP4, NEBULACHAT_DC_PORT }
+};
+
+static const BuiltInDc _builtInTestDcsIPv6[] = {
+    // { 1, "2001:0b28:f23d:f001:0000:0000:0000:000e", 443 },
+    // { 2, "2001:067c:04e8:f002:0000:0000:0000:000e", 443 },
+    // { 3, "2001:0b28:f23d:f003:0000:0000:0000:000e", 443 }
+};
+#else
 static const BuiltInDc _builtInDcs[] = {
 	{ 1, "149.154.175.50", 443 },
 	{ 2, "149.154.167.51", 443 },
@@ -99,6 +133,7 @@ static const BuiltInDc _builtInTestDcsIPv6[] = {
 	{ 2, "2001:067c:04e8:f002:0000:0000:0000:000e", 443 },
 	{ 3, "2001:0b28:f23d:f003:0000:0000:0000:000e", 443 }
 };
+#endif
 
 inline const BuiltInDc *builtInDcs() {
 	return cTestMode() ? _builtInTestDcs : _builtInDcs;

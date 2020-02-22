@@ -124,6 +124,9 @@ void ConfigLoader::setPhone(const QString &phone) {
 }
 
 void ConfigLoader::createSpecialLoader() {
+#ifdef PATCH_BY_NEBULACHAT
+    // FIXME(@benqi):
+#else
 	_triedSpecialEndpoints.clear();
 	_specialLoader = std::make_unique<SpecialConfigRequest>([=](
 			DcId dcId,
@@ -136,6 +139,7 @@ void ConfigLoader::createSpecialLoader() {
 			addSpecialEndpoint(dcId, ip, port, secret);
 		}
 	}, _phone);
+#endif
 }
 
 void ConfigLoader::addSpecialEndpoint(

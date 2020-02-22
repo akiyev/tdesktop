@@ -13,7 +13,12 @@ namespace MTP {
 namespace details {
 namespace {
 
+#ifdef PATCH_BY_NEBULACHAT
+// FIXME(@benqi):
+constexpr auto kForceHttpPort = 8080;
+#else
 constexpr auto kForceHttpPort = 80;
+#endif
 constexpr auto kFullConnectionTimeout = crl::time(8000);
 
 } // namespace

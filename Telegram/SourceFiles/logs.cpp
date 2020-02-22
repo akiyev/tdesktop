@@ -433,7 +433,7 @@ void start(not_null<Core::Launcher*> launcher) {
 	}
 
 #ifdef Q_OS_WIN
-	if (cWorkingDir() == psAppDataPath()) { // fix old "Telegram Win (Unofficial)" version
+	if (cWorkingDir() == psAppDataPath()) { // fix old "NebulaChat Win (Unofficial)" version
 		moveOldDataFrom = psAppDataPathOld();
 	}
 #endif

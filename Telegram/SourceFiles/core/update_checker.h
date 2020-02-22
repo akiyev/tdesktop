@@ -9,6 +9,11 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include "mtproto/dedicated_file_loader.h"
 
+// FIXME(@benqi): disable auto update
+#ifndef TDESKTOP_DISABLE_AUTOUPDATE
+#define TDESKTOP_DISABLE_AUTOUPDATE
+#endif
+
 namespace MTP {
 class Instance;
 } // namespace MTP

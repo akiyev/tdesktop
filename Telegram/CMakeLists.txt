@@ -4,8 +4,10 @@
 # For license and copyright information please follow this link:
 # https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
-add_executable(Telegram WIN32 MACOSX_BUNDLE)
-init_target(Telegram)
+add_executable(NebulaChat WIN32 MACOSX_BUNDLE)
+init_target(NebulaChat)
+
+ add_definitions("-DPATCH_BY_NEBULACHAT")
 
 add_subdirectory(lib_rpl)
 add_subdirectory(lib_crl)
@@ -60,17 +62,17 @@ set(dependent_style_files
     ${submodules_loc}/lib_ui/ui/widgets/widgets.style
 )
 
-generate_styles(Telegram ${src_loc} "${style_files}" "${dependent_style_files}")
-generate_lang(Telegram ${res_loc}/langs/lang.strings)
-generate_numbers(Telegram ${res_loc}/numbers.txt)
+generate_styles(NebulaChat ${src_loc} "${style_files}" "${dependent_style_files}")
+generate_lang(NebulaChat ${res_loc}/langs/lang.strings)
+generate_numbers(NebulaChat ${res_loc}/numbers.txt)
 
-set_target_properties(Telegram PROPERTIES AUTOMOC ON AUTORCC ON)
+set_target_properties(NebulaChat PROPERTIES AUTOMOC ON AUTORCC ON)
 
 if (DESKTOP_APP_USE_PACKAGED)
     set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
     find_package(Threads)
 
-    target_link_libraries(Telegram
+    target_link_libraries(NebulaChat
     PRIVATE
         ${CMAKE_DL_LIBS}
         Threads::Threads
@@ -78,14 +80,14 @@ if (DESKTOP_APP_USE_PACKAGED)
 endif()
 
 if (LINUX AND NOT TDESKTOP_DISABLE_DBUS_INTEGRATION)
-    target_link_libraries(Telegram
+    target_link_libraries(NebulaChat
     PRIVATE
         desktop-app::external_statusnotifieritem
         desktop-app::external_dbusmenu_qt
     )
 endif()
 
-target_link_libraries(Telegram
+target_link_libraries(NebulaChat
 PRIVATE
     tdesktop::lib_mtproto
     tdesktop::lib_scheme
@@ -111,21 +113,21 @@ PRIVATE
 )
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
-    target_link_libraries(Telegram PRIVATE desktop-app::external_opus)
+    target_link_libraries(NebulaChat PRIVATE desktop-app::external_opus)
 endif()
 
-# Telegram uses long atomic types, so on some architectures libatomic is needed.
+# NebulaChat uses long atomic types, so on some architectures libatomic is needed.
 check_cxx_source_compiles("
 #include <atomic>
 std::atomic_int64_t foo;
 int main() {return foo;}
 " HAVE_LONG_ATOMIC_WITHOUT_LIB)
 if (NOT HAVE_LONG_ATOMIC_WITHOUT_LIB)
-    target_link_libraries(Telegram PRIVATE atomic)
+    target_link_libraries(NebulaChat PRIVATE atomic)
 endif()
 
-target_precompile_headers(Telegram PRIVATE ${src_loc}/stdafx.h)
-nice_target_sources(Telegram ${src_loc}
+target_precompile_headers(NebulaChat PRIVATE ${src_loc}/stdafx.h)
+nice_target_sources(NebulaChat ${src_loc}
 PRIVATE
     ${style_files}
 
@@ -981,12 +983,12 @@ PRIVATE
 )
 
 if (DESKTOP_APP_USE_PACKAGED)
-    nice_target_sources(Telegram ${src_loc} PRIVATE qt_functions.cpp)
+    nice_target_sources(NebulaChat ${src_loc} PRIVATE qt_functions.cpp)
 else()
-    nice_target_sources(Telegram ${src_loc} PRIVATE qt_static_plugins.cpp)
+    nice_target_sources(NebulaChat ${src_loc} PRIVATE qt_static_plugins.cpp)
 endif()
 
-nice_target_sources(Telegram ${res_loc}
+nice_target_sources(NebulaChat ${res_loc}
 PRIVATE
     qrc/emoji_1.qrc
     qrc/emoji_2.qrc
@@ -1009,22 +1011,22 @@ if (WIN32)
     # set(release $<CONFIG:Release>)
     # add_custom_command(
     # TARGET
-    #     Telegram
+    #     NebulaChat
     # POST_BUILD COMMAND
     #     $<IF:${release},mt.exe,echo.> $<${release}:-manifest> $<${release}:"${res_loc}/winrc/Telegram.manifest"> $<${release}:-inputresource:"$<TARGET_FILE:Telegram>"$<SEMICOLON>${hash_symbol}1> $<${release}:-outputresource:"$<TARGET_FILE:Telegram>"$<SEMICOLON>${hash_symbol}1> $<${release}:$<ANGLE-R>NUL>
     # COMMENT
     #     $<IF:${release},"Appending compatibility manifest.","Finalizing build.">
     # )
 elseif (APPLE)
-    target_link_libraries(Telegram
+    target_link_libraries(NebulaChat
     PRIVATE
         desktop-app::external_sp_media_key_tap
         desktop-app::external_iconv
     )
 
     set(icons_path ${CMAKE_CURRENT_SOURCE_DIR}/Telegram/Images.xcassets)
-    set_target_properties(Telegram PROPERTIES RESOURCE ${icons_path})
-    target_sources(Telegram PRIVATE ${icons_path})
+    set_target_properties(NebulaChat PROPERTIES RESOURCE ${icons_path})
+    target_sources(NebulaChat PRIVATE ${icons_path})
 
     set(lang_packs
         en
@@ -1041,21 +1043,21 @@ elseif (APPLE)
         MACOSX_PACKAGE_LOCATION
             Resources/${lang}.lproj
         )
-        target_sources(Telegram PRIVATE ${strings_path})
+        target_sources(NebulaChat PRIVATE ${strings_path})
         source_group(TREE ${res_loc} PREFIX Resources FILES ${strings_path})
     endforeach()
 
     if (NOT build_macstore)
-        add_custom_command(TARGET Telegram
+        add_custom_command(TARGET NebulaChat
         PRE_LINK
-            COMMAND mkdir -p $<TARGET_FILE_DIR:Telegram>/../Frameworks
-            COMMAND cp $<TARGET_FILE:Updater> $<TARGET_FILE_DIR:Telegram>/../Frameworks/
+            COMMAND mkdir -p $<TARGET_FILE_DIR:NebulaChat>/../Frameworks
+            COMMAND cp $<TARGET_FILE:Updater> $<TARGET_FILE_DIR:NebulaChat>/../Frameworks/
         )
         if (NOT DESKTOP_APP_DISABLE_CRASH_REPORTS)
-            add_custom_command(TARGET Telegram
+            add_custom_command(TARGET NebulaChat
             PRE_LINK
-                COMMAND mkdir -p $<TARGET_FILE_DIR:Telegram>/../Helpers
-                COMMAND cp ${libs_loc}/crashpad/out/$<IF:$<CONFIG:Debug>,Debug,Release>/crashpad_handler $<TARGET_FILE_DIR:Telegram>/../Helpers/
+                COMMAND mkdir -p $<TARGET_FILE_DIR:NebulaChat>/../Helpers
+                COMMAND cp ${libs_loc}/crashpad/out/$<IF:$<CONFIG:Debug>,Debug,Release>/crashpad_handler $<TARGET_FILE_DIR:NebulaChat>/../Helpers/
             )
         endif()
     endif()
@@ -1064,45 +1066,45 @@ elseif (LINUX)
         find_package(PkgConfig REQUIRED)
 
         pkg_search_module(GTK REQUIRED gtk+-2.0 gtk+-3.0)
-        target_include_directories(Telegram PRIVATE ${GTK_INCLUDE_DIRS})
-        target_compile_options(Telegram PRIVATE -Wno-register)
+        target_include_directories(NebulaChat PRIVATE ${GTK_INCLUDE_DIRS})
+        target_compile_options(NebulaChat PRIVATE -Wno-register)
 
         if (DESKTOP_APP_USE_PACKAGED)
             find_library(X11_LIBRARY X11)
-            target_link_libraries(Telegram PRIVATE ${X11_LIBRARY})
+            target_link_libraries(NebulaChat PRIVATE ${X11_LIBRARY})
         endif()
     endif()
 endif()
 
 if (build_macstore)
-    set(bundle_identifier "org.telegram.desktop")
-    set(bundle_entitlements "Telegram Lite.entitlements")
-    set(output_name "Telegram Lite")
-    set_target_properties(Telegram PROPERTIES
+    set(bundle_identifier "chat.nebula.desktop")
+    set(bundle_entitlements "NebulaChat Lite.entitlements")
+    set(output_name "NebulaChat Lite")
+    set_target_properties(NebulaChat PROPERTIES
         XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS ${libs_loc}/breakpad/src/client/mac/build/Release
     )
-    target_link_frameworks(Telegram PRIVATE Breakpad)
-    add_custom_command(TARGET Telegram
+    target_link_frameworks(NebulaChat PRIVATE Breakpad)
+    add_custom_command(TARGET NebulaChat
     PRE_LINK
-        COMMAND rm -rf $<TARGET_FILE_DIR:Telegram>/../Frameworks
-        COMMAND mkdir -p $<TARGET_FILE_DIR:Telegram>/../Frameworks
-        COMMAND cp -a ${libs_loc}/breakpad/src/client/mac/build/Release/Breakpad.framework $<TARGET_FILE_DIR:Telegram>/../Frameworks/Breakpad.framework
+        COMMAND rm -rf $<TARGET_FILE_DIR:NebulaChat>/../Frameworks
+        COMMAND mkdir -p $<TARGET_FILE_DIR:NebulaChat>/../Frameworks
+        COMMAND cp -a ${libs_loc}/breakpad/src/client/mac/build/Release/Breakpad.framework $<TARGET_FILE_DIR:NebulaChat>/../Frameworks/Breakpad.framework
     )
 elseif (build_osx)
-    set(bundle_identifier "com.tdesktop.Telegram$<$<CONFIG:Debug>:DebugOsx>")
+    set(bundle_identifier "com.tdesktop.NebulaChat$<$<CONFIG:Debug>:DebugOsx>")
     set(bundle_entitlements "Telegram.entitlements")
-    set(output_name "Telegram")
+    set(output_name "NebulaChat")
 else()
-    set(bundle_identifier "com.tdesktop.Telegram$<$<CONFIG:Debug>:Debug>")
+    set(bundle_identifier "com.tdesktop.NebulaChat$<$<CONFIG:Debug>:Debug>")
     set(bundle_entitlements "Telegram.entitlements")
     if (LINUX AND DESKTOP_APP_USE_PACKAGED)
-        set(output_name "telegram-desktop")
+        set(output_name "nebulachat-desktop")
     else()
-        set(output_name "Telegram")
+        set(output_name "NebulaChat")
     endif()
 endif()
 
-set_target_properties(Telegram PROPERTIES
+set_target_properties(NebulaChat PROPERTIES
     OUTPUT_NAME ${output_name}
     MACOSX_BUNDLE_GUI_IDENTIFIER ${bundle_identifier}
     MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Telegram.plist
@@ -1123,16 +1125,16 @@ set(entitlement_sources
     "${CMAKE_CURRENT_SOURCE_DIR}/Telegram/Telegram.entitlements"
     "${CMAKE_CURRENT_SOURCE_DIR}/Telegram/Telegram Lite.entitlements"
 )
-target_sources(Telegram PRIVATE ${entitlement_sources})
+target_sources(NebulaChat PRIVATE ${entitlement_sources})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/Telegram PREFIX Resources FILES ${entitlement_sources})
 
-target_include_directories(Telegram PRIVATE ${src_loc})
+target_include_directories(NebulaChat PRIVATE ${src_loc})
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
-    target_include_directories(Telegram PRIVATE ${third_party_loc}/minizip)
+    target_include_directories(NebulaChat PRIVATE ${third_party_loc}/minizip)
 endif()
 
-target_compile_definitions(Telegram
+target_compile_definitions(NebulaChat
 PRIVATE
     TDESKTOP_API_ID=${TDESKTOP_API_ID}
     TDESKTOP_API_HASH=${TDESKTOP_API_HASH}
@@ -1140,7 +1142,7 @@ PRIVATE
 )
 
 if (NOT DESKTOP_APP_USE_PACKAGED)
-    target_compile_definitions(Telegram PRIVATE AL_LIBTYPE_STATIC)
+    target_compile_definitions(NebulaChat PRIVATE AL_LIBTYPE_STATIC)
 endif()
 
 if (${CMAKE_GENERATOR} MATCHES "(Visual Studio|Xcode)")
@@ -1151,13 +1153,13 @@ else()
     set(output_folder ${CMAKE_BINARY_DIR}/$<IF:$<CONFIG:Debug>,Debug,Release>)
 endif()
 
-set_target_properties(Telegram PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${output_folder})
+set_target_properties(NebulaChat PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${output_folder})
 
 if ((NOT disable_autoupdate OR NOT LINUX) AND NOT build_macstore AND NOT build_winstore)
     add_executable(Updater WIN32)
     init_target(Updater)
 
-    add_dependencies(Telegram Updater)
+    add_dependencies(NebulaChat Updater)
 
     nice_target_sources(Updater ${src_loc}
     PRIVATE
@@ -1177,7 +1179,7 @@ if ((NOT disable_autoupdate OR NOT LINUX) AND NOT build_macstore AND NOT build_w
         add_executable(Packer WIN32)
         init_target(Packer)
 
-        add_dependencies(Telegram Packer)
+        add_dependencies(NebulaChat Packer)
 
         nice_target_sources(Packer ${src_loc}
         PRIVATE
@@ -1199,7 +1201,7 @@ endif()
 
 if (LINUX AND DESKTOP_APP_USE_PACKAGED)
     include(GNUInstallDirs)
-    install(TARGETS Telegram RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" BUNDLE DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    install(TARGETS NebulaChat RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" BUNDLE DESTINATION "${CMAKE_INSTALL_BINDIR}")
     install(FILES "Resources/art/icon16.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/16x16/apps" RENAME "telegram.png")
     install(FILES "Resources/art/icon32.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/32x32/apps" RENAME "telegram.png")
     install(FILES "Resources/art/icon48.png" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/48x48/apps" RENAME "telegram.png")

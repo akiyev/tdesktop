@@ -36,7 +36,7 @@ PreLaunchWindow::PreLaunchWindow(QString title) {
 	setWindowIcon(Window::CreateIcon());
 	setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
 
-	setWindowTitle(title.isEmpty() ? qsl("Telegram") : title);
+	setWindowTitle(title.isEmpty() ? qsl("NebulaChat") : title);
 
 	QPalette p(palette());
 	p.setColor(QPalette::Background, QColor(255, 255, 255));
@@ -169,7 +169,7 @@ NotStartedWindow::NotStartedWindow()
 : _label(this)
 , _log(this)
 , _close(this) {
-	_label.setText(qsl("Could not start Telegram Desktop!\nYou can see complete log below:"));
+	_label.setText(qsl("Could not start NebulaChat Desktop!\nYou can see complete log below:"));
 
 	_log.setPlainText(Logs::full());
 
@@ -305,9 +305,9 @@ LastCrashedWindow::LastCrashedWindow(
 	connect(&_networkSettings, SIGNAL(clicked()), this, SLOT(onNetworkSettings()));
 
 	if (_sendingState == SendingNoReport) {
-		_label.setText(qsl("Last time Telegram Desktop was not closed properly."));
+		_label.setText(qsl("Last time NebulaChat Desktop was not closed properly."));
 	} else {
-		_label.setText(qsl("Last time Telegram Desktop crashed :("));
+		_label.setText(qsl("Last time NebulaChat Desktop crashed :("));
 	}
 
 	if (_updaterData) {
@@ -389,7 +389,7 @@ void LastCrashedWindow::onViewReport() {
 }
 
 void LastCrashedWindow::onSaveReport() {
-	QString to = QFileDialog::getSaveFileName(0, qsl("Telegram Crash Report"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + qsl("/report.telegramcrash"), qsl("Telegram crash report (*.telegramcrash)"));
+	QString to = QFileDialog::getSaveFileName(0, qsl("NebulaChat Crash Report"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + qsl("/report.telegramcrash"), qsl("NebulaChat crash report (*.telegramcrash)"));
 	if (!to.isEmpty()) {
 		QFile file(to);
 		if (file.open(QIODevice::WriteOnly)) {
@@ -498,12 +498,12 @@ void LastCrashedWindow::onCheckingFinished() {
 	LOG(("Crash report check for sending done, result: %1").arg(QString::fromUtf8(result)));
 
 	if (result == "Old") {
-		_pleaseSendReport.setText(qsl("This report is about some old version of Telegram Desktop."));
+		_pleaseSendReport.setText(qsl("This report is about some old version of NebulaChat Desktop."));
 		_sendingState = SendingTooOld;
 		updateControls();
 		return;
 	} else if (result == "Unofficial") {
-		_pleaseSendReport.setText(qsl("You use some custom version of Telegram Desktop."));
+		_pleaseSendReport.setText(qsl("You use some custom version of NebulaChat Desktop."));
 		_sendingState = SendingUnofficial;
 		updateControls();
 		return;
@@ -783,7 +783,7 @@ void LastCrashedWindow::updateControls() {
 	}
 
 	QRect scr(QApplication::primaryScreen()->availableGeometry());
-	QSize s(2 * padding + QFontMetrics(_label.font()).width(qsl("Last time Telegram Desktop was not closed properly.")) + padding + _networkSettings.width(), h);
+	QSize s(2 * padding + QFontMetrics(_label.font()).width(qsl("Last time NebulaChat Desktop was not closed properly.")) + padding + _networkSettings.width(), h);
 	if (s == size()) {
 		resizeEvent(0);
 	} else {

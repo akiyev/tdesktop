@@ -68,7 +68,7 @@ HWND createTaskbarHider() {
 	HINSTANCE appinst = (HINSTANCE)GetModuleHandle(0);
 	HWND hWnd = 0;
 
-	QString cn = QString("TelegramTaskbarHider");
+	QString cn = QString("NebulaChatTaskbarHider");
 	LPCWSTR _cn = (LPCWSTR)cn.utf16();
 	WNDCLASSEX wc;
 
@@ -198,7 +198,7 @@ public:
 		HWND hwnd = _window ? _window->psHwnd() : nullptr;
 
 		for (int i = 0; i < 4; ++i) {
-			QString cn = QString("TelegramShadow%1").arg(i);
+			QString cn = QString("NebulaChatShadow%1").arg(i);
 			LPCWSTR _cn = (LPCWSTR)cn.utf16();
 			WNDCLASSEX wc;
 

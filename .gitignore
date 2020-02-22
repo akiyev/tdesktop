@@ -48,3 +48,6 @@ stage
 /Linux/
 /Telegram/Makefile
 *.*~
+
+/out*
+/patch
