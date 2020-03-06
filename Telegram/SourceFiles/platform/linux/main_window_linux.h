@@ -39,6 +39,7 @@ public slots:
 	void psShowTrayMenu();
 
 protected:
+	void initHook() override;
 	void unreadCounterChangedHook() override;
 
 	void initTrayMenuHook() override;
@@ -69,7 +70,7 @@ private:
 	StatusNotifierItem *_sniTrayIcon = nullptr;
 	std::unique_ptr<QTemporaryFile> _trayIconFile = nullptr;
 
-	void setSNITrayIcon(const QIcon &icon, const QImage &iconImage);
+	void setSNITrayIcon(int counter, bool muted, bool firstShow = false);
 	void attachToSNITrayIcon();
 #endif // !TDESKTOP_DISABLE_DBUS_INTEGRATION
 
