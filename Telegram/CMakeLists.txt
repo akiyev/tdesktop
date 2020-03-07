@@ -7,7 +7,8 @@
 add_executable(NebulaChat WIN32 MACOSX_BUNDLE)
 init_target(NebulaChat)
 
- add_definitions("-DPATCH_BY_NEBULACHAT")
+add_definitions("-DPATCH_BY_NEBULACHAT")
+add_definitions("-DTDESKTOP_DISABLE_AUTOUPDATE")
 
 add_subdirectory(lib_rpl)
 add_subdirectory(lib_crl)

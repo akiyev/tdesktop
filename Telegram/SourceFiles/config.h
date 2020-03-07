@@ -73,10 +73,10 @@ struct BuiltInDc {
 };
 
 #ifdef PATCH_BY_NEBULACHAT
-// #define NEBULACHAT_DC_IP4   "47.103.102.219"
-// #define NEBULACHAT_DC_PORT  12443
-#define NEBULACHAT_DC_IP4  "127.0.0.1"
-#define NEBULACHAT_DC_PORT  12345
+#define NEBULACHAT_DC_IP4   "47.103.102.219"
+#define NEBULACHAT_DC_PORT  12443
+// #define NEBULACHAT_DC_IP4  "127.0.0.1"
+// #define NEBULACHAT_DC_PORT  12345
 
 static const BuiltInDc _builtInDcs[] = {
     { 1, NEBULACHAT_DC_IP4, NEBULACHAT_DC_PORT },

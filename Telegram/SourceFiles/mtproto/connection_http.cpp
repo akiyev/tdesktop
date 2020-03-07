@@ -15,7 +15,7 @@ namespace {
 
 #ifdef PATCH_BY_NEBULACHAT
 // FIXME(@benqi):
-constexpr auto kForceHttpPort = 8080;
+constexpr auto kForceHttpPort = 8800;
 #else
 constexpr auto kForceHttpPort = 80;
 #endif
