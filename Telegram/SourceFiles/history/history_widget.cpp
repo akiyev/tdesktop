@@ -39,6 +39,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "data/data_channel.h"
 #include "data/data_chat.h"
 #include "data/data_user.h"
+#include "data/data_chat_filters.h"
 #include "data/data_scheduled_messages.h"
 #include "data/data_file_origin.h"
 #include "data/data_histories.h"
@@ -237,7 +238,7 @@ void ShowErrorToast(const QString &text) {
 	auto config = Ui::Toast::Config();
 	config.multiline = true;
 	config.minWidth = st::msgMinWidth;
-	config.text = text;
+	config.text = { text };
 	Ui::Toast::Show(config);
 }
 
@@ -1453,6 +1454,9 @@ bool HistoryWidget::notify_switchInlineBotButtonReceived(const QString &query, U
 }
 
 void HistoryWidget::notify_userIsBotChanged(UserData *user) {
+	if (const auto history = session().data().history(user)) {
+		session().data().chatsFilters().refreshHistory(history);
+	}
 	if (_peer && _peer == user) {
 		_list->notifyIsBotChanged();
 		_list->updateBotInfo();
@@ -1765,6 +1769,7 @@ void HistoryWidget::showHistory(
 
 	_showAtMsgId = showAtMsgId;
 	_historyInited = false;
+	_contactStatus = nullptr;
 
 	// Unload lottie animations.
 	Auth().data().unloadHeavyViewParts(HistoryInner::ElementDelegate());
@@ -1782,8 +1787,6 @@ void HistoryWidget::showHistory(
 		}, _contactStatus->lifetime());
 		orderWidgets();
 		controller()->tabbedSelector()->setCurrentPeer(_peer);
-	} else {
-		_contactStatus = nullptr;
 	}
 	refreshTabbedPanel();
 
@@ -1812,6 +1815,7 @@ void HistoryWidget::showHistory(
 			&& (!_history->loadedAtTop() || !_migrated->loadedAtBottom())) {
 			_migrated->clear(History::ClearType::Unload);
 		}
+		_history->setFakeUnreadWhileOpened(true);
 
 		_topBar->setActiveChat(
 			_history,
@@ -2909,7 +2913,26 @@ void HistoryWidget::historyDownClicked() {
 }
 
 void HistoryWidget::showNextUnreadMention() {
-	showHistory(_peer->id, _history->getMinLoadedUnreadMention());
+	const auto msgId = _history->getMinLoadedUnreadMention();
+	const auto already = (_showAtMsgId == msgId);
+
+	// Mark mention voice/video message as read.
+	// See https://github.com/telegramdesktop/tdesktop/issues/5623
+	if (msgId && already) {
+		const auto item = _history->owner().message(
+			_history->channelId(),
+			msgId);
+		if (const auto media = item ? item->media() : nullptr) {
+			if (const auto document = media->document()) {
+				if (!media->webpage()
+					&& (document->isVoiceMessage()
+						|| document->isVideoMessage())) {
+					document->owner().markMediaRead(document);
+				}
+			}
+		}
+	}
+	showHistory(_peer->id, msgId);
 }
 
 void HistoryWidget::saveEditMsg() {
@@ -5106,6 +5129,8 @@ int HistoryWidget::countInitialScrollTop() {
 }
 
 void HistoryWidget::createUnreadBarIfBelowVisibleArea(int withScrollTop) {
+	Expects(_history != nullptr);
+
 	if (_history->unreadBar()) {
 		return;
 	}
@@ -5227,7 +5252,7 @@ void HistoryWidget::updateHistoryGeometry(
 		newScrollTop = countInitialScrollTop();
 		_historyInited = true;
 		_scrollToAnimation.stop();
-	} else if (wasAtBottom && !loadedDown) {
+	} else if (wasAtBottom && !loadedDown && !_history->unreadBar()) {
 		newScrollTop = countAutomaticScrollTop();
 	} else {
 		newScrollTop = std::min(
