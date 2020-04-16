@@ -107,9 +107,9 @@ void AboutBox::showVersionHistory() {
 
 		QGuiApplication::clipboard()->setText(url);
 
-		Ui::show(Box<InformBox>("The link to the current private alpha version of Telegram Desktop was copied to the clipboard."));
+		Ui::show(Box<InformBox>("The link to the current private alpha version of NebulaChat Desktop was copied to the clipboard."));
 	} else {
-		QDesktopServices::openUrl(qsl("https://desktop.telegram.org/changelog"));
+		QDesktopServices::openUrl(qsl("https://nebula.chat/desktop/changelog"));
 	}
 }
 
@@ -122,7 +122,7 @@ void AboutBox::keyPressEvent(QKeyEvent *e) {
 }
 
 QString telegramFaqLink() {
-	const auto result = qsl("https://telegram.org/faq");
+	const auto result = qsl("https://nebula.chat/faq");
 	const auto langpacked = [&](const char *language) {
 		return result + '/' + language;
 	};

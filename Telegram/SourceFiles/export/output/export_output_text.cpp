@@ -104,7 +104,7 @@ QByteArray SerializeMessage(
 
 	if (message.media.content.is<UnsupportedMedia>()) {
 		return "Error! This message is not supported "
-			"by this version of Telegram Desktop. "
+			"by this version of NebulaChat Desktop. "
 			"Please update the application.";
 	}
 
@@ -334,7 +334,7 @@ QByteArray SerializeMessage(
 		}
 	}, [&](const ActionContactSignUp &data) {
 		pushActor();
-		pushAction("Join Telegram");
+		pushAction("Join NebulaChat");
 	}, [&](const ActionPhoneNumberRequest &data) {
 		pushActor();
 		pushAction("Request Phone Number");

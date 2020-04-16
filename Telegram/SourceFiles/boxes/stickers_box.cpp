@@ -1452,6 +1452,8 @@ void StickersBox::Inner::AddressField::correctValue(
 		qstr("telegram.me/"),
 		qstr("telegram.dog/"),
 		qstr("addstickers/"),
+        qstr("nebula.chat/"),
+        qstr("nebula.im/"),
 	};
 	for (auto &removePhrase : removeFromBeginning) {
 		if (newText.startsWith(removePhrase)) {

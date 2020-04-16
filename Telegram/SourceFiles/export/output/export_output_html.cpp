@@ -1085,7 +1085,7 @@ auto HtmlWriter::Wrap::pushMessage(
 		return "You have sent the following documents: "
 			+ SerializeList(list);
 	}, [&](const ActionContactSignUp &data) {
-		return serviceFrom + " joined Telegram";
+		return serviceFrom + " joined NebulaChat";
 	}, [&](const ActionPhoneNumberRequest &data) {
 		return serviceFrom + " requested your phone number";
 	}, [](std::nullopt_t) { return QByteArray(); });

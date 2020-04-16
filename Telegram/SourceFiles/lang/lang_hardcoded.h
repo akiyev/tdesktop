@@ -43,11 +43,11 @@ inline QString SecureAcceptError() {
 }
 
 inline QString PassportCorrupted() {
-	return qsl("It seems your Telegram Passport data was corrupted.\n\nYou can reset your Telegram Passport and restart this authorization.");
+	return qsl("It seems your NebulaChat Passport data was corrupted.\n\nYou can reset your NebulaChat Passport and restart this authorization.");
 }
 
 inline QString PassportCorruptedChange() {
-	return qsl("It seems your Telegram Passport data was corrupted.\n\nYou can reset your Telegram Passport and change your cloud password.");
+	return qsl("It seems your NebulaChat Passport data was corrupted.\n\nYou can reset your NebulaChat Passport and change your cloud password.");
 }
 
 inline QString PassportCorruptedReset() {
@@ -55,7 +55,7 @@ inline QString PassportCorruptedReset() {
 }
 
 inline QString PassportCorruptedResetSure() {
-	return qsl("Are you sure you want to reset your Telegram Passport data?");
+	return qsl("Are you sure you want to reset your NebulaChat Passport data?");
 }
 
 inline QString UnknownSecureScanError() {

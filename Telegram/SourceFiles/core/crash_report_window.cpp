@@ -366,7 +366,7 @@ LastCrashedWindow::LastCrashedWindow(
 	connect(&_showReport, SIGNAL(clicked()), this, SLOT(onViewReport()));
 	_saveReport.setText(qsl("SAVE TO FILE"));
 	connect(&_saveReport, SIGNAL(clicked()), this, SLOT(onSaveReport()));
-	_getApp.setText(qsl("GET THE LATEST OFFICIAL VERSION OF TELEGRAM DESKTOP"));
+	_getApp.setText(qsl("GET THE LATEST OFFICIAL VERSION OF NebulaChat DESKTOP"));
 	connect(&_getApp, SIGNAL(clicked()), this, SLOT(onGetApp()));
 
 	_send.setText(qsl("SEND CRASH REPORT"));

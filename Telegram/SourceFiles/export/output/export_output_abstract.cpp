@@ -185,7 +185,7 @@ Stats AbstractWriter::produceTestExample(
 	webSession.botUsername = "botfather";
 	webSession.browser = "Google Chrome";
 	webSession.created = date();
-	webSession.domain = "telegram.org";
+	webSession.domain = "nebula.chat";
 	webSession.ip = "127.0.0.1";
 	webSession.lastActive = date();
 	webSession.platform = "Windows";
@@ -430,7 +430,7 @@ Stats AbstractWriter::produceTestExample(
 	sliceChat2.list.push_back([&] {
 		auto message = serviceMessage();
 		auto action = Data::ActionBotAllowed();
-		action.domain = "telegram.org";
+		action.domain = "nebula.chat";
 		message.action.content = action;
 		return message;
 	}());
